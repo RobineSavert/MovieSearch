@@ -13,7 +13,6 @@
 </template>
 <script setup>
 import SearchForm from "@/components/SearchForm.vue";
-
 const emit = defineEmits(["search"]);
 </script>
 
@@ -89,4 +88,5 @@ const emit = defineEmits(["search"]);
     width: 65vw;
   }
 }
+
 </style>

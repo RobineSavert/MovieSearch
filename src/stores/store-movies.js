@@ -7,6 +7,7 @@ export const useMoviesStore = defineStore("movies", {
     featuredMovies: [],
     searchQuery: "",
     selectedMovie: null,
+    hasMovies: false,
     baseUrl: import.meta.env.VITE_API_BASE,
     apiKey: import.meta.env.VITE_API_KEY,
   }),
@@ -24,6 +25,7 @@ export const useMoviesStore = defineStore("movies", {
 
         if (!data.Search || data.Response === "False") {
           this.movies = [];
+          this.hasMovies = false
           return;
         }
 
@@ -40,7 +42,8 @@ export const useMoviesStore = defineStore("movies", {
 
         this.movies = detailedResults.filter(
           (m) => m && m.Response !== "False",
-        );
+        )
+        this.hasMovies = true;
       } catch (error) {
         console.error("Error fetching movies:", error);
         this.movies = [];
