@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-  import video from "@/assets/mp4/bg.mp4";
+import video from "@/assets/mp4/bg.mp4";
 </script>
 
 <style scoped>
