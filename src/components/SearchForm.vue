@@ -1,5 +1,5 @@
 <template>
-  <form id="movieForm">
+  <form id="movieForm" @submit.prevent="onSubmit">
     <div class="row input-group-movie">
       <div class="col">
         <input
@@ -34,11 +34,10 @@
 </template>
 <script setup>
 import { ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { useMoviesStore } from "@/stores/store-movies.js";
 
 const moviesStore = useMoviesStore();
-const router = useRouter();
 const route = useRoute();
 const searchQuery = ref(moviesStore.searchQuery || route.query.q || "");
 const plotType = ref("short");
@@ -61,7 +60,6 @@ const debouncedSearch = debounce((query) => {
     moviesStore.searchQuery = "";
     moviesStore.movies = [];
   }
-  router.replace({ name: "movies", query: query ? { q: query } : {} });
 });
 
 watch(searchQuery, (newVal) => {
@@ -77,6 +75,15 @@ watch(plotType, () => {
 function clearQuery() {
   searchQuery.value = "";
 }
+
+function onSubmit() {
+  if (searchQuery.value.trim()) {
+    moviesStore.searchQuery = searchQuery.value
+    moviesStore.getAllMoviesBySearch(searchQuery.value, plotType.value)
+    emit("search", searchQuery.value)
+  }
+}
+
 </script>
 
 <style scoped>
