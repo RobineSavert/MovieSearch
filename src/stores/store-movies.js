@@ -34,8 +34,7 @@ export const useMoviesStore = defineStore("movies", {
             const detailRes = await fetch(
               `${this.baseUrl}?i=${movie.imdbID}&apikey=${this.apiKey}&plot=${plot}`,
             );
-            const detailData = await detailRes.json();
-            return detailData;
+            return await detailRes.json();
           }),
         );
 
@@ -45,23 +44,6 @@ export const useMoviesStore = defineStore("movies", {
       } catch (error) {
         console.error("Error fetching movies:", error);
         this.movies = [];
-      } finally {
-        this.isLoading = false;
-      }
-    },
-
-    async getMovieById(id) {
-      this.isLoading = true;
-      try {
-        const res = await fetch(
-          `${this.baseUrl}?i=${id}&apikey=${this.apiKey}&plot=full`,
-        );
-        const data = await res.json();
-        this.selectedMovie = data;
-        return data;
-      } catch (error) {
-        console.error("Error fetching movie by ID:", error);
-        this.selectedMovie = null;
       } finally {
         this.isLoading = false;
       }

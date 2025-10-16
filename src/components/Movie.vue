@@ -15,12 +15,13 @@
     <img :src="movie.Poster" class="card-img-top max-img" :alt="movie.Title" />
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="card-title">{{ movie.Title }} - {{ movie.Year }}</h5>
-        <span>{{ movie.Rated }}</span>
+        <h5 class="card-title">{{ movie.Title }}</h5>
+        <span>{{ movie.Year }}</span>
       </div>
+      <hr />
       <div class="card-text">
-        <span class="bold">Genre:</span>
-        <ul class="list-group list-group-flush mb-0" v-if="genreList.length">
+        <p class="fw-bolder">Genre</p>
+        <ul class="list-group mb-0" v-if="genreList.length">
           <li
             v-for="(genre, i) in genreList"
             :key="`genre-${i}`"
@@ -30,14 +31,31 @@
           </li>
         </ul>
         <span v-else>—</span>
-        | Type: {{ movie.Type }}
       </div>
-      <p class="card-text">{{ movie.Plot }}</p>
       <hr />
-      <p class="card-text">Director: {{ movie.Director }}</p>
       <div class="card-text">
-        <span class="bold">Actors:</span>
-        <ul class="list-group list-group-flush mb-0" v-if="actorsList.length">
+        <p class="fw-bolder">Type</p>
+        {{ movie.Type }}
+      </div>
+      <hr />
+      <div class="card-text">
+        <p class="fw-bolder">Plot</p>
+        {{ movie.Plot }}
+      </div>
+      <hr />
+      <div class="card-text">
+        <p class="fw-bolder">Rated</p>
+        {{ movie.Rated }}
+      </div>
+      <hr />
+      <div class="card-text">
+        <p class="fw-bolder">Director</p>
+        {{ movie.Director }}
+      </div>
+      <hr />
+      <div class="card-text">
+        <p class="fw-bolder">Actors</p>
+        <ul class="list-group mb-0" v-if="actorsList.length">
           <li
             v-for="(actor, i) in actorsList"
             :key="`actor-${i}`"
@@ -48,15 +66,11 @@
         </ul>
         <span v-else>—</span>
       </div>
-      <p class="card-text">Awards: {{ movie.Awards }}</p>
-    </div>
-
-    <div class="card-body">
-      <RouterLink
-        :to="{ name: 'movie', params: { id: movie.imdbID } }"
-        class="btn btn-primary"
-        >Details</RouterLink
-      >
+      <hr />
+      <div class="card-text">
+        <p class="fw-bolder">Awards</p>
+        {{ movie.Awards }}
+      </div>
     </div>
   </div>
 </template>

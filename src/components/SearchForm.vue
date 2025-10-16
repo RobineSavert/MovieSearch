@@ -1,15 +1,25 @@
 <template>
-  <div class="p-5 mb-4 bg-body-tertiary rounded-3">
-    <div class="container-fluid py-5">
-      <h1 class="display-5 fw-bold">Search a movie</h1>
-
-      <div class="d-flex align-items-center">
+  <form id="movieForm">
+    <div class="row input-group-movie">
+      <div class="col">
         <input
           v-model="searchQuery"
           type="text"
           placeholder="Search for a movie..."
-          class="border rounded p-2 flex-grow-1"
+          class="form-control"
         />
+        <select
+          id="plotType"
+          v-model="plotType"
+          class="form-select form-select-sm my-3"
+          aria-label="Large select example"
+        >
+          <option selected>Plot</option>
+          <option value="short">Short</option>
+          <option value="full">Full</option>
+        </select>
+      </div>
+      <div class="col-auto">
         <button
           type="button"
           @click="clearQuery"
@@ -19,28 +29,20 @@
           Reset search
         </button>
       </div>
-      <div class="mt-3">
-        <label class="me-2 fw-semibold">Plot:</label>
-        <select v-model="plotType" class="border rounded p-1">
-          <option value="short">Short</option>
-          <option value="full">Full</option>
-        </select>
-      </div>
     </div>
-  </div>
+  </form>
 </template>
-
 <script setup>
 import { ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useMoviesStore } from "@/stores/store-movies.js";
-import { useRouter, useRoute } from "vue-router";
 
 const moviesStore = useMoviesStore();
 const router = useRouter();
 const route = useRoute();
-
 const searchQuery = ref(moviesStore.searchQuery || route.query.q || "");
 const plotType = ref("short");
+const emit = defineEmits(["search"]);
 
 function debounce(fn, delay = 500) {
   let timeout;
@@ -54,6 +56,7 @@ const debouncedSearch = debounce((query) => {
   if (query.trim() !== "") {
     moviesStore.searchQuery = query;
     moviesStore.getAllMoviesBySearch(query, plotType.value);
+    emit("search", query);
   } else {
     moviesStore.searchQuery = "";
     moviesStore.movies = [];
@@ -75,3 +78,20 @@ function clearQuery() {
   searchQuery.value = "";
 }
 </script>
+
+<style scoped>
+input {
+  height: auto;
+  width: 100%;
+  font-size: 1rem;
+  padding: 1rem;
+}
+
+.input-group-movie button {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: calc(1rem + 2px);
+}
+</style>
