@@ -1,6 +1,6 @@
 # MovieApp
 
-See a live demo [here](https://sogeti.netlify.app/).
+See a live demo [here](https://hollywoodsearch.netlify.app/).
 
 
 ## Project Setup
